@@ -11,11 +11,8 @@
 
 	<name>GreenKart</name>
 	<!-- FIXME change it to the project's website -->
-<<<<<<< HEAD
 	<url>https://rahulshettyacademy.com/seleniumPractise</url>
-=======
-	<url>http://www.example.com</url>
->>>>>>> b35fce2ebc8311d3ced903f55e815863e35d7346
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
