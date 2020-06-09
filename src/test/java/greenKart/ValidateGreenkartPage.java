@@ -15,9 +15,10 @@ import pageObjects.GreenkartPage;
 import resources.Base;
 
 public class ValidateGreenkartPage extends Base {
+	
 	public WebDriver driver;
+	public static Logger log = LogManager.getLogger(Base.class.getName());
 
-	private static Logger log = LogManager.getLogger(Base.class.getName());
 	public GreenkartPage g;
 	
 	@BeforeTest
@@ -37,7 +38,7 @@ public class ValidateGreenkartPage extends Base {
 	public void validateTitle() {
 		System.out.println(g.getLogo().getText());
 		Assert.assertTrue(g.getLogo().isDisplayed(), "Logo is dislpayed");
-		log.info("GreenKart logo is displayed");
+//		log.info("GreenKart logo is displayed");
 	}
 	
 	@Test
@@ -45,7 +46,7 @@ public class ValidateGreenkartPage extends Base {
 		System.out.println(g.getOffer().getText());
 		Assert.assertTrue(g.getOffer().isDisplayed(), "Offer is displayed");
 		g.getOffer().click();
-		log.info("Offer link is clickable");
+//		log.info("Offer link is clickable");
 		
 	}
 }
