@@ -8,10 +8,15 @@
 	<groupId>VladKononov</groupId>
 	<artifactId>GreenKart</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
 	<name>GreenKart</name>
 	<!-- FIXME change it to the project's website -->
-	<url>https://rahulshettyacademy.com/seleniumPractise</url>
+	<url>http://maven.apache.org</url>
+	
+	<profiles>
+		<profile>
+			<id>Regression</id>
+		</profile>
+	</profiles>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
