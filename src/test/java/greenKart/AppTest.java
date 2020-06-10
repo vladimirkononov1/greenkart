@@ -1,4 +1,4 @@
-package GreenKart;
+package greenKart;
 
 import static org.junit.Assert.assertTrue;
 

@@ -1,4 +1,4 @@
-package GreenKart;
+package greenKart;
 
 /**
  * Hello world!

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.*;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -31,11 +32,11 @@ public class Base {
 		/*
 		 * sending parameter using mvn command mvn test -Dbrowser=firefox
 		 */
-		String browserName = System.getProperty("browser");
+//		String browserName = System.getProperty("browser");
 		/*
 		 * using data.properties file to set the browser
 		 */
-//		 String browserName = prop.getProperty("browser");
+		 String browserName = prop.getProperty("browser");
 
 		System.out.println(browserName);
 
