@@ -2,24 +2,24 @@
 <testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2020-06-10T16:53:40 PDT" name="Suite" finished-at="2020-06-10T16:53:51 PDT" duration-ms="10602">
+  <suite started-at="2020-06-10T17:23:52 PDT" name="Suite" finished-at="2020-06-10T17:24:02 PDT" duration-ms="10132">
     <groups>
     </groups>
-    <test started-at="2020-06-10T16:53:40 PDT" name="Test" finished-at="2020-06-10T16:53:51 PDT" duration-ms="10602">
+    <test started-at="2020-06-10T17:23:52 PDT" name="Test" finished-at="2020-06-10T17:24:02 PDT" duration-ms="10132">
       <class name="greenKart.ValidateGreenkartPage">
-        <test-method is-config="true" signature="initialize()[pri:0, instance:greenKart.ValidateGreenkartPage@54a67a45]" started-at="2020-06-10T16:53:40 PDT" name="initialize" finished-at="2020-06-10T16:53:50 PDT" duration-ms="9746" status="PASS">
+        <test-method is-config="true" signature="initialize()[pri:0, instance:greenKart.ValidateGreenkartPage@54a67a45]" started-at="2020-06-10T17:23:52 PDT" name="initialize" finished-at="2020-06-10T17:24:01 PDT" duration-ms="8995" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- initialize -->
-        <test-method signature="validateOffer()[pri:0, instance:greenKart.ValidateGreenkartPage@54a67a45]" started-at="2020-06-10T16:53:50 PDT" name="validateOffer" finished-at="2020-06-10T16:53:50 PDT" duration-ms="484" status="PASS">
+        <test-method signature="validateOffer()[pri:0, instance:greenKart.ValidateGreenkartPage@54a67a45]" started-at="2020-06-10T17:24:01 PDT" name="validateOffer" finished-at="2020-06-10T17:24:02 PDT" duration-ms="673" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- validateOffer -->
-        <test-method signature="validateTitle()[pri:0, instance:greenKart.ValidateGreenkartPage@54a67a45]" started-at="2020-06-10T16:53:50 PDT" name="validateTitle" finished-at="2020-06-10T16:53:51 PDT" duration-ms="201" status="PASS">
+        <test-method signature="validateTitle()[pri:0, instance:greenKart.ValidateGreenkartPage@54a67a45]" started-at="2020-06-10T17:24:02 PDT" name="validateTitle" finished-at="2020-06-10T17:24:02 PDT" duration-ms="288" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- validateTitle -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:greenKart.ValidateGreenkartPage@54a67a45]" started-at="2020-06-10T16:53:51 PDT" name="tearDown" finished-at="2020-06-10T16:53:51 PDT" duration-ms="76" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:greenKart.ValidateGreenkartPage@54a67a45]" started-at="2020-06-10T17:24:02 PDT" name="tearDown" finished-at="2020-06-10T17:24:02 PDT" duration-ms="47" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
