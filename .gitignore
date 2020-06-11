@@ -2,3 +2,6 @@
 /reports/
 /test-output/
 /logs/
+**/logs
+**/reports
+**/test-output
