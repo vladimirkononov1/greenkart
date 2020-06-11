@@ -4,4 +4,4 @@
 /logs/
 **/logs/
 **/reports/
-**/test-output/
+**/test-output
