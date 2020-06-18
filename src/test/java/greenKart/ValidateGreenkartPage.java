@@ -7,7 +7,9 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -25,7 +27,7 @@ public class ValidateGreenkartPage extends Base {
 	List<WebElement> products;
 	List<WebElement> button;
 	List<WebElement> addedProduct;
-	
+
 	@BeforeTest
 	public void initialize() throws IOException {
 		driver = initializeDriver();
@@ -39,7 +41,17 @@ public class ValidateGreenkartPage extends Base {
 		driver = null;
 	}
 
-	//Verify GreenKart Logo
+	@BeforeMethod
+	public void cleanUpCart() {
+		// empty cart after test has finished
+		if (g.getProceedButton().isEnabled()) {
+			g.removeCartItems();
+		} else {
+			System.out.println("Cart is empty");
+		}
+	}
+
+	// Verify GreenKart Logo
 	@Test(enabled = true)
 	public void validateTitle() {
 		System.out.println(g.getLogo().getText());
@@ -47,36 +59,36 @@ public class ValidateGreenkartPage extends Base {
 		log.info("GreenKart logo is displayed");
 	}
 
-	//Validate Limited Offer
+	// Validate Limited Offer
 	@Test(enabled = true)
 	public void validateOffer() {
 		System.out.println(g.getOffer().getText());
 		Assert.assertTrue(g.getOffer().isDisplayed(), "Offer is displayed");
-		g.getOffer().click();
-		log.info("Offer link is clickable");
+		log.info("Offer link is displayed");
 
 	}
 
-	//Validate Top Deals link
+	// Validate Top Deals link
 	@Test(enabled = true)
 	public void validateTopDeals() {
 		System.out.println(g.getTopDeals().getText());
 		Assert.assertTrue(g.getTopDeals().isDisplayed(), "Top Deals is not displayed");
-		g.getTopDeals().click();
-		log.info("Top Deals clicked");
+		Assert.assertEquals(g.getTopDeals().getText(), "Top Deals", "Title is wrong or not displayed");
+		log.info("Top Deals displayed");
 	}
 
-	//Validate Flight Booking link
+	// Validate Flight Booking link
 	@Test(enabled = true)
 	public void valiateFlightBooking() {
 		System.out.println(g.getFlightBooking().getText());
-		Assert.assertTrue(g.getFlightBooking().isDisplayed(), "Flight Booking is not displayed");
-		g.getFlightBooking().click();
-		log.info("Flight Booking clicked");
+//		Assert.assertTrue(g.getFlightBooking().isDisplayed(), "Flight Booking is not displayed");
+		Assert.assertEquals(g.getFlightBooking().getText(), "Flight Booking");
+//		g.getFlightBooking().click();
+//		log.info("Flight Booking clicked");
 	}
 
-	//Validate Empty cart message
-	@Test(enabled = true)
+	// Validate Empty cart message
+	@Test()
 	public void validateCart() {
 		System.out.println(g.cart().getText());
 		Assert.assertTrue(g.cart().isDisplayed(), "Cart is not displayed");
@@ -84,6 +96,7 @@ public class ValidateGreenkartPage extends Base {
 		Assert.assertFalse(g.getProceedButton().isEnabled(), "Button should not be enabled");
 	}
 
+	// Validate product name on the page
 	@Test
 	public void validateProductNames() {
 		List<WebElement> products = g.getProductNames();
@@ -95,6 +108,7 @@ public class ValidateGreenkartPage extends Base {
 
 	}
 
+	// Verify if items can be added to cart
 	@Test(enabled = true)
 	public void validateAddItemToCart() {
 		productRemove = g.getProductRemove();
@@ -115,11 +129,5 @@ public class ValidateGreenkartPage extends Base {
 		}
 		System.out.println(item + " added to the cart");
 
-		if (g.getProceedButton().isEnabled()) {
-			g.removeCartItems();
-		} else {
-			System.out.println("Cart is empty");
-		}
 	}
-
 }

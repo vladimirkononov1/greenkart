@@ -7,7 +7,7 @@ public class AcademyPage {
 	public WebDriver driver;
 
 	public AcademyPage(WebDriver driver) {
-		this.driver = driver;
+			this.driver = driver;
 	}
-	
+		
 }

@@ -95,7 +95,6 @@ public class GreenkartPage {
 			WebElement item = remove.get(i);
 			item.click();
 		}
-
 	}
-
+	
 }
