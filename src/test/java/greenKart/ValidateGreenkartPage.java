@@ -2,6 +2,8 @@ package greenKart;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -52,7 +54,7 @@ public class ValidateGreenkartPage extends Base {
 	}
 
 	// Verify GreenKart Logo
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void validateTitle() {
 		System.out.println(g.getLogo().getText());
 		Assert.assertTrue(g.getLogo().isDisplayed(), "Logo is dislpayed");
@@ -60,7 +62,7 @@ public class ValidateGreenkartPage extends Base {
 	}
 
 	// Validate Limited Offer
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void validateOffer() {
 		System.out.println(g.getOffer().getText());
 		Assert.assertTrue(g.getOffer().isDisplayed(), "Offer is displayed");
@@ -69,7 +71,7 @@ public class ValidateGreenkartPage extends Base {
 	}
 
 	// Validate Top Deals link
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void validateTopDeals() {
 		System.out.println(g.getTopDeals().getText());
 		Assert.assertTrue(g.getTopDeals().isDisplayed(), "Top Deals is not displayed");
@@ -78,7 +80,7 @@ public class ValidateGreenkartPage extends Base {
 	}
 
 	// Validate Flight Booking link
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void valiateFlightBooking() {
 		System.out.println(g.getFlightBooking().getText());
 //		Assert.assertTrue(g.getFlightBooking().isDisplayed(), "Flight Booking is not displayed");
@@ -88,7 +90,7 @@ public class ValidateGreenkartPage extends Base {
 	}
 
 	// Validate Empty cart message
-	@Test()
+	@Test(enabled = false)
 	public void validateCart() {
 		System.out.println(g.cart().getText());
 		Assert.assertTrue(g.cart().isDisplayed(), "Cart is not displayed");
@@ -97,7 +99,7 @@ public class ValidateGreenkartPage extends Base {
 	}
 
 	// Validate product name on the page
-	@Test
+	@Test(enabled = false)
 	public void validateProductNames() {
 		List<WebElement> products = g.getProductNames();
 		for (int i = 0; i < g.getProducts().size(); i++) {
@@ -110,24 +112,34 @@ public class ValidateGreenkartPage extends Base {
 
 	// Verify if items can be added to cart
 	@Test(enabled = true)
-	public void validateAddItemToCart() {
-		productRemove = g.getProductRemove();
-		products = g.getProductNames();
-		button = g.getAddButtons();
-		addedProduct = g.getProductAdded();
-		String item = "";
-		for (int i = 0; i < g.getProducts().size(); i++) {
-			if (products.get(i).getText().contains("Brocolli")) {
-				button.get(i).click();
-				item = products.get(i).getText();
-				System.out.println("added " + item);
-			}
-		}
+	public void validateCartItems() throws InterruptedException {
+		System.out.println("Validating Cart Items...");
+		Thread.sleep(2000);
+		g.addItemToCart();
+		String numItem = g.getNumItems().getText();
 		g.cart().click();
-		for (int i = 0; i < addedProduct.size(); i++) {
-			Assert.assertEquals(item, addedProduct.get(i).getText());
+		addedProduct = g.getProductAdded();
+		Assert.assertTrue(g.getNumItems().getText().equals(numItem), "Number of items is not correct");
+		System.out.println("Number of items in the cart is " + numItem);
+		for(int i=0; i<addedProduct.size(); i++) {
+			Assert.assertEquals(addedProduct.get(i).getText(), g.item);
+			System.out.println("The Validated String is " + g.item);
 		}
-		System.out.println(item + " added to the cart");
+
+	}
+	
+	// Verify if items still present in cart upon refresh
+	@Test(enabled = true)
+	public void validateCartAfterRefresh() throws InterruptedException{
+		System.out.println("Validating Cart After Refresh...");
+		Thread.sleep(2000);
+		addedProduct = g.getProductAdded();
+		g.addItemToCart();
+		String numItem = g.getNumItems().getText();
+		g.refreshPage();
+		Assert.assertTrue(g.getNumItems().getText().equals(numItem), "Number of items is not correct");
+		System.out.println("Number of items in the cart is " + numItem);
+
 
 	}
 }

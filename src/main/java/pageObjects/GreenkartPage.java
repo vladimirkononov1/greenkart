@@ -23,11 +23,18 @@ public class GreenkartPage {
 	private By emptyCartText = By.cssSelector("div[class='cart-preview active'] h2");
 	private By productRemove = By.cssSelector("[class='cart-preview active'] a[class='product-remove']");
 	private By proceedButton = By.xpath("//button[contains(text(), 'PROCEED TO CHECKOUT')]");
+	private By numItems = By.xpath("//tr[1]//td[3]//strong[1]");
+	
+	List<WebElement> button;
+	List<WebElement> addedProduct;
+	List<WebElement> product;
+	public String item = "";
+
 
 	public GreenkartPage(WebDriver driver) {
 		this.driver = driver;
 	}
-
+	
 	public WebElement getOffer() {
 		return driver.findElement(offer);
 	}
@@ -87,6 +94,10 @@ public class GreenkartPage {
 	public WebElement getProceedButton() {
 		return driver.findElement(proceedButton);
 	}
+	
+	public WebElement getNumItems() {
+		return driver.findElement(numItems);
+	}
 
 	public void removeCartItems() {
 		GreenkartPage g = new GreenkartPage(driver);
@@ -95,6 +106,26 @@ public class GreenkartPage {
 			WebElement item = remove.get(i);
 			item.click();
 		}
+	}
+	
+	public String addItemToCart() {
+		GreenkartPage g = new GreenkartPage(driver);
+		button = g.getAddButtons();
+		product = g.getProductNames();
+//		String item = "";
+		for (int i = 0; i < g.getProducts().size(); i++) {
+			if (product.get(i).getText().contains("Brocolli")) {
+				button.get(i).click();
+				item = product.get(i).getText();
+				System.out.println("added " + item);
+			}
+		}
+		return item;
+	}
+	
+	public void refreshPage() {
+		GreenkartPage g = new GreenkartPage(driver);
+		driver.navigate().refresh();
 	}
 	
 }
