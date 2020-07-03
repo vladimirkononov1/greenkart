@@ -28,7 +28,7 @@ public class GreenkartPage {
 	List<WebElement> button;
 	List<WebElement> addedProduct;
 	List<WebElement> product;
-	public String item = "";
+	public String itemName = "";
 
 
 	public GreenkartPage(WebDriver driver) {
@@ -108,20 +108,22 @@ public class GreenkartPage {
 		}
 	}
 	
-	public String addItemToCart() {
+	public String addItem(String item) {
 		GreenkartPage g = new GreenkartPage(driver);
 		button = g.getAddButtons();
 		product = g.getProductNames();
 //		String item = "";
 		for (int i = 0; i < g.getProducts().size(); i++) {
-			if (product.get(i).getText().contains("Brocolli")) {
+			String name = product.get(i).getText();
+			if (name.contains(item)) {
 				button.get(i).click();
-				item = product.get(i).getText();
-				System.out.println("added " + item);
+				itemName = product.get(i).getText();
+				System.out.println("added " + itemName);
 			}
 		}
-		return item;
+		return itemName;
 	}
+	
 	
 	public void refreshPage() {
 		GreenkartPage g = new GreenkartPage(driver);

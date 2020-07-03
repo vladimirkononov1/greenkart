@@ -1,6 +1,7 @@
 package greenKart;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import pageObjects.GreenkartPage;
 import resources.Base;
 
@@ -98,15 +100,24 @@ public class ValidateGreenkartPage extends Base {
 		Assert.assertFalse(g.getProceedButton().isEnabled(), "Button should not be enabled");
 	}
 
-	// Validate product name on the page
-	@Test(enabled = false)
+	// Validate product name on the page - NEED TO UPDATE, move itemsNeededList to resources!!!!
+	@Test(enabled = true)
 	public void validateProductNames() {
 		List<WebElement> products = g.getProductNames();
+		List<String> itemsNeededList = new ArrayList<String>();
 		for (int i = 0; i < g.getProducts().size(); i++) {
-			System.out.println(i + 1 + " product is: " + products.get(i).getText());
+			String[] name = products.get(i).getText().split("-");
+			String formattedName = name[0].trim();
+			itemsNeededList.add(formattedName);
+
+			Assert.assertEquals(formattedName, itemsNeededList.get(i));
 		}
 		log.info("There are " + products.size() + " products on the GreenKart page");
-		Assert.assertEquals(products.get(0).getText(), "Brocolli - 1 Kg");
+		for(Object ob : itemsNeededList) {
+			System.out.println(ob);
+		}
+//		Assert.assertEquals(products.get(0).getText(), "Brocolli - 1 Kg");
+
 
 	}
 
@@ -115,15 +126,15 @@ public class ValidateGreenkartPage extends Base {
 	public void validateCartItems() throws InterruptedException {
 		System.out.println("Validating Cart Items...");
 		Thread.sleep(2000);
-		g.addItemToCart();
+		g.addItem("Brocolli");
 		String numItem = g.getNumItems().getText();
 		g.cart().click();
 		addedProduct = g.getProductAdded();
 		Assert.assertTrue(g.getNumItems().getText().equals(numItem), "Number of items is not correct");
 		System.out.println("Number of items in the cart is " + numItem);
 		for(int i=0; i<addedProduct.size(); i++) {
-			Assert.assertEquals(addedProduct.get(i).getText(), g.item);
-			System.out.println("The Validated String is " + g.item);
+			Assert.assertEquals(addedProduct.get(i).getText(), g.itemName);
+			System.out.println("The Validated String is " + g.itemName);
 		}
 
 	}
@@ -134,12 +145,21 @@ public class ValidateGreenkartPage extends Base {
 		System.out.println("Validating Cart After Refresh...");
 		Thread.sleep(2000);
 		addedProduct = g.getProductAdded();
-		g.addItemToCart();
+		g.addItem("Brocolli");
 		String numItem = g.getNumItems().getText();
 		g.refreshPage();
 		Assert.assertTrue(g.getNumItems().getText().equals(numItem), "Number of items is not correct");
 		System.out.println("Number of items in the cart is " + numItem);
 
-
+	}
+	
+	//Increase the count of item and verify if it is showing up in cart
+	@Test(enabled = true)
+	public void increaseItemCount() {
+		System.out.println("Increasing Item Count in the cart...");
+		g.addItem("Brocolli");
+		g.addItem("Cucumber");
+		System.out.println("Cart items count is " + g.getNumItems().getText());
+		Assert.assertEquals(g.getNumItems().getText(), "2");
 	}
 }

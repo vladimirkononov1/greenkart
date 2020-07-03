@@ -1,0 +1,33 @@
+pipeline
+{
+agent any
+
+stages
+{
+stage('MavenJob')
+{
+steps
+{
+bat "mvn test -PRegression"
+}
+
+}
+stage('E2EProject')
+{
+steps
+{
+bat "mvm test -Dbrowser="chrome""
+}
+
+}
+stage('GreenKart')
+{
+steps
+{
+bat "test -Dbrowser="firefox""
+}
+
+}
+}
+
+}
