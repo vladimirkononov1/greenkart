@@ -16,7 +16,7 @@ stage('E2EProject')
 {
 steps
 {
-bat "mvm test -Dbrowser="chrome""
+bat "mvm test"
 }
 
 }
@@ -24,7 +24,7 @@ stage('GreenKart')
 {
 steps
 {
-bat "test -Dbrowser="firefox""
+bat "mvn test"
 }
 
 }
