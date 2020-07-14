@@ -94,8 +94,8 @@ public class ValidateGreenkartPage extends Base {
 	// Validate Empty cart message
 	@Test(enabled = false)
 	public void validateCart() {
-		System.out.println(g.cart().getText());
-		Assert.assertTrue(g.cart().isDisplayed(), "Cart is not displayed");
+		System.out.println(g.getCart().getText());
+		Assert.assertTrue(g.getCart().isDisplayed(), "Cart is not displayed");
 		Assert.assertEquals(g.getEmptyCartText().getText(), "You cart is empty!");
 		Assert.assertFalse(g.getProceedButton().isEnabled(), "Button should not be enabled");
 	}
@@ -128,7 +128,7 @@ public class ValidateGreenkartPage extends Base {
 		Thread.sleep(2000);
 		g.addItem("Brocolli");
 		String numItem = g.getNumItems().getText();
-		g.cart().click();
+		g.getCart().click();
 		addedProduct = g.getProductAdded();
 		Assert.assertTrue(g.getNumItems().getText().equals(numItem), "Number of items is not correct");
 		System.out.println("Number of items in the cart is " + numItem);
