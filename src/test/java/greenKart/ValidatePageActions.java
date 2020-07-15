@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -27,7 +28,6 @@ public class ValidatePageActions extends Base {
 
 	public WebDriver driver;
 	public static Logger log = LogManager.getLogger(Base.class.getName());
-//	WebDriverWait wait;
 
 	public GreenkartPage g;
 
@@ -64,7 +64,7 @@ public class ValidatePageActions extends Base {
 	}
 	
 	@AfterMethod(enabled = true)
-	public void remveCardItems() {
+	public void removeCardItems() {
 		//empty cart if it's not empty
 		g.getCart().click();
 		if (g.getProceedButton().isEnabled()) {
@@ -72,6 +72,7 @@ public class ValidatePageActions extends Base {
 		} else {
 			System.out.println("Cart is empty");
 		}
+		g.getCart().click();
 	}
 	
 
@@ -80,24 +81,17 @@ public class ValidatePageActions extends Base {
 	public void changeButtonText() {
 		System.out.println("Click ADD TO CART...");
 		g.addItem("Cucumber");
-		String changedButtonText = g.getAddedText().getText();
+		String changedButtonText = g.waitForElement();
 		Assert.assertEquals(changedButtonText, "✔ ADDED");
 		System.out.println(changedButtonText);
-//		g.getCart().click();
-//		if (g.getProceedButton().isEnabled()) {
-//			g.removeCartItems();
-//		} else {
-//			System.out.println("Cart is empty");
-//		}
-//		g.getCart().click();
 	}
 	
 	//Verify sum of products matches with amount displayed in cart
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void productSum() throws InterruptedException {
 		int kartPrice = 0;
 		g.addItem("Cucumber");
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		g.addItem("Tomato");
 		String sKart = g.getKartPrice().getText();
 		kartPrice = Integer.parseInt(sKart);

@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class GreenkartPage {
 	public WebDriver driver;
 	
-//	WebDriverWait wait = new WebDriverWait(driver, 20);
+//	public WebDriverWait wait = new WebDriverWait(driver, 20);
 
 	private By offer = By.xpath("//a[@class='cart-header-navlink blinkingText']");
 	private By logo = By.xpath("//div[@class='brand greenLogo']");
@@ -117,6 +117,12 @@ public class GreenkartPage {
 	public WebElement getKartPrice() {
 		return driver.findElement(kartPrice);
 	}
+	
+	public String waitForElement() {
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		String element = wait.until(ExpectedConditions.visibilityOf(getAddedText())).getText();
+		return element;
+	}
 
 	public void removeCartItems() {
 		GreenkartPage g = new GreenkartPage(driver);
@@ -128,15 +134,18 @@ public class GreenkartPage {
 	}
 
 	public String addItem(String item) {
+		WebDriverWait wait = new WebDriverWait(driver, 20);
 		GreenkartPage g = new GreenkartPage(driver);
 		List<WebElement> product;
 		button = g.getAddButtons();
 		product = g.getProductNames();
 		for (int i = 0; i < g.getProducts().size(); i++) {
 			String name = product.get(i).getText();
+			WebElement clickable;
 			if (name.contains(item)) {
-//				wait.until(ExpectedConditions.elementToBeClickable(button.get(i))).click();
-				button.get(i).click();
+				clickable = wait.until(ExpectedConditions.elementToBeClickable(button.get(i)));
+//				button.get(i).click();
+				clickable.click();
 				itemName = product.get(i).getText();
 				System.out.println("added " + itemName);
 			}
