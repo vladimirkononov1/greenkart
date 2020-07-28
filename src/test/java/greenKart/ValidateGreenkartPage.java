@@ -43,6 +43,7 @@ public class ValidateGreenkartPage extends Base {
 	public void tearDown() {
 		driver.quit();
 		driver = null;
+//		driver.close();
 	}
 
 	@BeforeMethod

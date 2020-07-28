@@ -47,6 +47,7 @@ public class ValidatePageActions extends Base {
 	public void tearDown() {
 		driver.quit();
 		driver = null;
+//		driver.close();
 	}
 
 	@BeforeMethod
@@ -63,7 +64,7 @@ public class ValidatePageActions extends Base {
 		}
 	}
 	
-	@AfterMethod(enabled = true)
+	@AfterMethod(enabled = false)
 	public void removeCardItems() {
 		//empty cart if it's not empty
 		g.getCart().click();
@@ -77,25 +78,24 @@ public class ValidatePageActions extends Base {
 	
 
 	//Validate button text switched to Added when pressed 
-	@Test(enabled = true)
-	public void changeButtonText() {
+	@Test(priority = 1)
+	public void changeButtonText() throws InterruptedException {
+		List<WebElement> prices = g.getProductPrice();
 		System.out.println("Click ADD TO CART...");
 		g.addItem("Cucumber");
 		String changedButtonText = g.waitForElement();
 		Assert.assertEquals(changedButtonText, "✔ ADDED");
 		System.out.println(changedButtonText);
 	}
-	
-	//Verify sum of products matches with amount displayed in cart
-	@Test(enabled = true)
-	public void productSum() throws InterruptedException {
-		int kartPrice = 0;
-		g.addItem("Cucumber");
-		Thread.sleep(5000);
-		g.addItem("Tomato");
-		String sKart = g.getKartPrice().getText();
-		kartPrice = Integer.parseInt(sKart);
-		int sumItems = g.itemPrice("Cucumber", "Tomato");
-		Assert.assertEquals(kartPrice, sumItems);
+		
+	//Verify the prices shown up for products on page
+	@Test(enabled = false)
+	public void productPrice() {
+		List<WebElement> prices = g.getProductPrice();
+		for(int i = 0; i < prices.size(); i++) {
+			Assert.assertTrue(true, g.getProductPrice().get(i).getText());
+			Assert.assertEquals(g.getProductPrice().get(i).getText(), prices.get(i).getText());
+		}
 	}
+		
 }

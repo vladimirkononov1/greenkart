@@ -4,13 +4,25 @@
 	<listeners>
 		<listener class-name="greenKart.Listeners"></listener>
 	</listeners>
-	<test thread-count="5" name="Test">
+	<test thread-count="2" name="Validate Page Actions">
 		<classes>
 			<class name="greenKart.ValidatePageActions"></class>
+		</classes>
+	</test>
+	<test thread-count="2" name="Validate Cart Actions">
+		<classes>
 			<class name="greenKart.ValidateCartActions"></class>
+		</classes>
+	</test>
+	<test thread-count="3" name="Validate GreenKart Page">
+		<classes>
 			<class name="greenKart.ValidateGreenkartPage" />
+		</classes>
+	</test>
+	<test thread-count="3" name="External Links">
+		<classes>
 			<class name="greenKart.ExternalLinks"></class>
 		</classes>
 	</test>
-	 <!-- Test -->
+	<!-- Test -->
 </suite> <!-- Suite -->

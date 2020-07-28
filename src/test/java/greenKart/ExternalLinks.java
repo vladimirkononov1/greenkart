@@ -32,6 +32,7 @@ public class ExternalLinks extends Base{
 	public void tearDown() {
 		driver.quit();
 		driver = null;
+//		driver.close();
 	}
 	
 	//Validate Limited Offer
