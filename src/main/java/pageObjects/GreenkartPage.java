@@ -32,10 +32,10 @@ public class GreenkartPage {
 	private By addedText = By.className("added");
 	private By productPrice = By.className("product-price");
 	private By kartPrice = By.xpath("//div[@class='cart-info']/table/tbody/tr[2]/td[3]/strong");
+	private By wrongSearch = By.xpath("//h2[contains(text(),'Sorry, no products matched your search!')]");
 
 	List<WebElement> button;
 	List<WebElement> addedProduct;
-//	List<WebElement> product;
 	public String itemName = "";
 
 	public GreenkartPage(WebDriver driver) {
@@ -118,11 +118,14 @@ public class GreenkartPage {
 		return driver.findElement(kartPrice);
 	}
 	
+	public WebElement getWrongSearch() {
+		return driver.findElement(wrongSearch);
+	}
 	public String waitForElement() {
 		WebDriverWait wait = new WebDriverWait(driver, 20);
 		String element = wait.until(ExpectedConditions.visibilityOf(getAddedText())).getText();
 		return element;
-	}
+	}	
 
 	public void removeCartItems() {
 		GreenkartPage g = new GreenkartPage(driver);

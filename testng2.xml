@@ -20,5 +20,10 @@
 			<class name="greenKart.ExternalLinks"></class>
 		</classes>
 	</test>
+		<test name="Validate Search Page">
+		<classes>
+			<class name="greenKart.ValidateSearch" />
+		</classes>
+	</test>
 	<!-- Test -->
 </suite> <!-- Suite -->
