@@ -75,6 +75,7 @@ public class ValidateSearch extends Base {
 			Assert.assertTrue(productNames.get(i).contains(searchItem));
 			
 		}
+		log.info("AutoFill Test passed");
 		
 	}
 	
@@ -102,6 +103,7 @@ public class ValidateSearch extends Base {
 			System.out.println(items.get(i));
 		}
 		Assert.assertTrue(products.size() == 1);
+		log.info("Search Product test passed");
 		
 	}
 
@@ -117,8 +119,24 @@ public class ValidateSearch extends Base {
 
 		System.out.println(g.getWrongSearch().getText());
 		Assert.assertEquals(g.getWrongSearch().getText(), expectedMessage);
+		log.info("Wrong search test passed");
 		
 	}
 
-	
+	//validate special charachter in search
+	@Test(enabled=true)
+	public void specialCharSearch() {
+
+		String searchItem = "$";
+		String expectedMessage = "Sorry, no products matched your search!";
+
+		g.getSearch().clear();
+		g.getSearch().sendKeys(searchItem);
+
+		System.out.println(g.getWrongSearch().getText());
+		Assert.assertEquals(g.getWrongSearch().getText(), expectedMessage);
+		log.info("Special character in search test passed");
+		
+	}
+
 }

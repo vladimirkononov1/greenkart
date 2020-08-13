@@ -78,8 +78,8 @@ public class ValidatePageActions extends Base {
 	
 
 	//Validate button text switched to Added when pressed 
-	@Test(priority = 1)
-	public void changeButtonText() throws InterruptedException {
+	@Test(enabled=false, priority = 1)
+	public void changeButtonText() {
 		List<WebElement> prices = g.getProductPrice();
 		System.out.println("Click ADD TO CART...");
 		g.addItem("Cucumber");
@@ -96,6 +96,32 @@ public class ValidatePageActions extends Base {
 			Assert.assertTrue(true, g.getProductPrice().get(i).getText());
 			Assert.assertEquals(g.getProductPrice().get(i).getText(), prices.get(i).getText());
 		}
+	}
+	
+	//Verify limited offer link
+	@Test(enabled=true)
+	public void limitedOffer() throws InterruptedException {
+		
+		String currentPageHandle = driver.getWindowHandle();
+		g.getOffer().click();
+		
+		ArrayList<String> tabHandles = new ArrayList<String>(driver.getWindowHandles());
+		String expectedPageTitle = "Rahul Shetty Academy";
+		boolean newTabFound = false;
+		
+		for(String eachHandle : tabHandles) {
+			driver.switchTo().window(eachHandle);
+			if(driver.getTitle().equalsIgnoreCase(expectedPageTitle)) {
+				Assert.assertEquals(driver.getTitle(), expectedPageTitle);
+				System.out.println(driver.getTitle());
+				driver.close();
+				driver.switchTo().window(currentPageHandle);
+				newTabFound = true;
+
+			}
+		}
+		
+		System.out.println(driver.getTitle());
 	}
 		
 }
