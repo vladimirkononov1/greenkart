@@ -1,4 +1,4 @@
-	package greenKart;
+package greenKart;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,18 +30,24 @@ public class ValidateCartActions extends Base {
 	public static Logger log = LogManager.getLogger(Base.class.getName());
 
 	public GreenkartPage g;
+	public By emptyCart = By.xpath("//strong[contains(text(),'')]");
 
-//	List<WebElement> productRemove;
-//	List<WebElement> products;
-//	List<WebElement> button;
-//	List<WebElement> addedProduct;
-
+	public void removeCartItems() {
+		g.getCart().click();
+		if (g.getProceedButton().getAttribute("class").contains("disabled")) {
+			System.out.println("Cart is empty");
+			g.getCart().click();
+		} else {
+			g.removeCartItems();
+		}
+	}
 	@BeforeTest
 	public void initialize() throws IOException {
 		driver = initializeDriver();
 //		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.get(prop.getProperty("url"));
 		g = new GreenkartPage(driver);
+
 	}
 
 	@AfterTest(enabled = true)
@@ -51,75 +57,138 @@ public class ValidateCartActions extends Base {
 //		driver.close();
 	}
 
-	@BeforeMethod
-	public void cleanUpCart() {
+	@BeforeMethod(enabled = false)
+	public void cleanUpCart() throws InterruptedException {
 		// empty cart after test has finished
 		g.getCart().click();
-		if (g.getProceedButton().isEnabled()) {
-			g.removeCartItems();
-			g.getCart().click();
-		} 
-		else {
+		if (g.getProceedButton().getAttribute("class").contains("disabled")) {
 			System.out.println("Cart is empty");
 			g.getCart().click();
+		} else {
+			g.removeCartItems();
 		}
+//		g.removeCartItems();
 	}
-		
-	//Verify sum of products matches with amount displayed in cart
-	@Test(priority = 1, enabled = true)
+
+	// Verify sum of products matches with amount displayed in cart
+	@Test(enabled = true)
 	public void productSum() throws InterruptedException {
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		System.out.println("The text in empty cart is: " + g.getEmptyCart().getText());
+		System.out.println("the boolean value is: " + g.isEmpty());
+		
+		By added = By.xpath("//*[contains(text(),'✔ ADDED')]");
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+
 		int kartPrice = 0;
+		wait.until(ExpectedConditions.invisibilityOfElementWithText(added, "✔ ADDED"));
 		g.addItem("Cucumber");
-		Thread.sleep(5000);
+		wait.until(ExpectedConditions.invisibilityOfElementWithText(added, "✔ ADDED"));
 		g.addItem("Tomato");
 		String sKart = g.getKartPrice().getText();
 		kartPrice = Integer.parseInt(sKart);
 		int sumItems = g.itemPrice("Cucumber", "Tomato");
 		Assert.assertEquals(kartPrice, sumItems);
+		g.removeCartItems();
+
 	}
+	
+	// Verify items in cart are displaing as expected
+	@Test(enabled = true)
+	public void itemsInCartNew() throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, 20);
 		
-	//Verify items in cart are displaing as expected
-	@Test(priority = 2, enabled = true)
+
+		By added = By.xpath("//*[contains(text(),'✔ ADDED')]");
+		List<String> test = null;
+		g.addItem("Tomato");
+//		String[] it1 = g.addItem("Tomato").split(" ");
+//		String item1 = it1[0].trim();
+		wait.until(ExpectedConditions.invisibilityOfElementWithText(added, "✔ ADDED"));
+//		Thread.sleep(5000);
+		g.addItem("Potato");
+//		String[] it2 = g.addItem("Potato").split(" ");
+//		String item2 = it2[0].trim();
+		wait.until(ExpectedConditions.invisibilityOfElementWithText(added, "✔ ADDED"));
+//		Thread.sleep(3000);
+//		System.out.println(item1 + ", " + item2);
+//		g.getCart().click();
+		List<WebElement> addedItems = g.getProductAdded();
+		for (WebElement element : addedItems) {
+			String[] tmp = element.getText().split(" ");
+			String cartItem = tmp[0].trim();
+//			Assert.assertTrue(cartItem.equals(item1) || cartItem.equals(item2));
+//			if(item1.equals(cartItem) || item2.equals(cartItem)) {
+//				System.out.println(cartItem + " matches added product, test PASSED");
+//			} else {
+//				System.out.println("Test FAILED!!!");
+//			}
+			System.out.println(cartItem);
+		}
+		g.removeCartItems();
+	}
+
+	// Verify items in cart are displaing as expected
+	@Test(enabled = true)
 	public void itemsInCart() throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		By added = By.xpath("//*[contains(text(),'✔ ADDED')]");
 		List<String> test = null;
 		String[] it1 = g.addItem("Tomato").split(" ");
 		String item1 = it1[0].trim();
-		Thread.sleep(5000);
+		wait.until(ExpectedConditions.invisibilityOfElementWithText(added, "✔ ADDED"));
+//		Thread.sleep(5000);
 		String[] it2 = g.addItem("Potato").split(" ");
 		String item2 = it2[0].trim();
-		Thread.sleep(3000);
+		wait.until(ExpectedConditions.invisibilityOfElementWithText(added, "✔ ADDED"));
+//		Thread.sleep(3000);
 		System.out.println(item1 + ", " + item2);
 		g.getCart().click();
 		List<WebElement> addedItems = g.getProductAdded();
-		for(WebElement element : addedItems) {
+		for (WebElement element : addedItems) {
 			String[] tmp = element.getText().split(" ");
 			String cartItem = tmp[0].trim();
 			Assert.assertTrue(cartItem.equals(item1) || cartItem.equals(item2));
-			if(item1.equals(cartItem) || item2.equals(cartItem)) {
+			if (item1.equals(cartItem) || item2.equals(cartItem)) {
 				System.out.println(cartItem + " matches added product, test PASSED");
 			} else {
 				System.out.println("Test FAILED!!!");
 			}
 		}
+		g.getCart().click();
+		g.removeCartItems();
 	}
-	
-	//Verify the prices shown up for products on page
-	@Test(priority = 3, enabled = false)
+
+	// Verify the prices shown up for products on page
+	@Test(enabled = true)
 	public void productPrice() {
 		List<WebElement> prices = g.getProductPrice();
-		for(int i = 0; i < prices.size(); i++) {
+		for (int i = 0; i < prices.size(); i++) {
 			Assert.assertTrue(true, g.getProductPrice().get(i).getText());
 			Assert.assertEquals(g.getProductPrice().get(i).getText(), prices.get(i).getText());
 		}
+		g.removeCartItems();
 	}
-	
-	//Verify empty cart message is displayed when no items are present in cart
-	@Test (enabled = true)
-	public void validateEmptyCartMessage()  {
+
+	// Verify empty cart message is displayed when no items are present in cart
+	@Test(enabled = true)
+	public void validateEmptyCartMessage() {
+//		driver.get(prop.getProperty("url"));
 		String message = "You cart is empty!";
 		g.getCart().click();
 		Assert.assertEquals(g.getEmptyCartText().getText(), message);
+	}
+
+	// Verify if button is disabled in empty cart window
+	@Test(enabled = true)
+	public void emptyCartButton() {
+
+		String expectedState = "disabled";
+		String actualState = g.getProceedButton().getAttribute("class");
+
+		Assert.assertEquals(actualState, expectedState);
+		Assert.assertFalse(g.getProceedButton().isEnabled(), "Test Failed!!! The button should be Disabled!");
+
 	}
 
 }
